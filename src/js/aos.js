@@ -4,7 +4,7 @@
  * made to animate elements on scroll in both directions
  * *******************************************************
  */
-import styles from './../sass/aos.scss';
+import './../sass/aos.scss';
 
 // Modules & helpers
 import throttle from 'lodash.throttle';
@@ -47,10 +47,9 @@ let options = {
 // Detect not supported browsers (<=IE9)
 // http://browserhacks.com/#hack-e71d8692f65334173fee715c222cb805
 const isBrowserNotSupported = () => document.all && !window.atob;
-
 // current window scroll handler
 let currentScrollHandler
-const initializeScroll = function initializeScroll() {
+const initializeScroll = () => {
   // Extend elements objects in $aosElements with their positions
   $aosElements = prepare($aosElements, options);
   // Perform scroll event, to refresh view and show/hide elements
@@ -77,7 +76,7 @@ const initializeScroll = function initializeScroll() {
 /**
  * Refresh AOS
  */
-const refresh = function refresh(initialize = false) {
+const refresh = (initialize = false) => {
   // Allow refresh only when it was first initialized on startEvent
   if (initialize) initialized = true;
   if (initialized) initializeScroll();
@@ -87,7 +86,7 @@ const refresh = function refresh(initialize = false) {
  * Hard refresh
  * create array with new elements and trigger refresh
  */
-const refreshHard = function refreshHard() {
+const refreshHard = () => {
   $aosElements = elements();
 
   if (isDisabled(options.disable) || isBrowserNotSupported()) {
@@ -101,8 +100,8 @@ const refreshHard = function refreshHard() {
  * Disable AOS
  * Remove all attributes to reset applied styles
  */
-const disable = function() {
-  $aosElements.forEach(function(el, i) {
+const disable = () => {
+  $aosElements.forEach(el => {
     el.node.removeAttribute('data-aos');
     el.node.removeAttribute('data-aos-easing');
     el.node.removeAttribute('data-aos-duration');
@@ -121,7 +120,7 @@ const disable = function() {
 /**
  * Check if AOS should be disabled based on provided setting
  */
-const isDisabled = function(optionDisable) {
+const isDisabled = optionDisable => {
   return (
     optionDisable === true ||
     (optionDisable === 'mobile' && detect.mobile()) ||
@@ -140,7 +139,7 @@ const isDisabled = function(optionDisable) {
  * - Attach function that handle scroll and everything connected to it
  *   to window scroll event and fire once document is ready to set initial state
  */
-const init = function init(settings) {
+const init = settings => {
   options = Object.assign(options, settings);
 
   // Create initial array with elements -> to be fullfilled later with prepare()
@@ -194,11 +193,11 @@ const init = function init(settings) {
    */
   if (['DOMContentLoaded', 'load'].indexOf(options.startEvent) === -1) {
     // Listen to options.startEvent and initialize AOS
-    document.addEventListener(options.startEvent, function() {
+    document.addEventListener(options.startEvent, () => {
       refresh(true);
     });
   } else {
-    window.addEventListener('load', function() {
+    window.addEventListener('load', () => {
       refresh(true);
     });
   }
